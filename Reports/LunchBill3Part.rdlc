@@ -1,0 +1,1148 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="ReportDataSource">
+      <ConnectionProperties>
+        <DataProvider>System.Data.DataSet</DataProvider>
+        <ConnectString>/* Local Report */</ConnectString>
+      </ConnectionProperties>
+      <rd:DataSourceID>1</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="ReportData">
+      <Query>
+        <DataSourceName>ReportDataSource</DataSourceName>
+        <CommandText>/* Local Report */</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="ClassName"><DataField>ClassName</DataField></Field>
+        <Field Name="ParentName"><DataField>ParentName</DataField></Field>
+        <Field Name="StudentId"><DataField>StudentId</DataField></Field>
+        <Field Name="SeatNumber"><DataField>SeatNumber</DataField></Field>
+        <Field Name="LunchFee"><DataField>LunchFee</DataField></Field>
+        <Field Name="FreshMilkFee"><DataField>FreshMilkFee</DataField></Field>
+        <Field Name="SchoolMealFee"><DataField>SchoolMealFee</DataField></Field>
+        <Field Name="AfterSchoolFee"><DataField>AfterSchoolFee</DataField></Field>
+        <Field Name="AgencyFee"><DataField>AgencyFee</DataField></Field>
+        <Field Name="TotalFee"><DataField>TotalFee</DataField></Field>
+        <Field Name="TotalFeeAlt"><DataField>TotalFeeAlt</DataField></Field>
+        <Field Name="FeeDetails"><DataField>FeeDetails</DataField></Field>
+        <Field Name="ParentNote"><DataField>ParentNote</DataField></Field>
+        <Field Name="ContactInfo"><DataField>ContactInfo</DataField></Field>
+        <Field Name="Barcode1"><DataField>Barcode1</DataField></Field>
+        <Field Name="Barcode2"><DataField>Barcode2</DataField></Field>
+        <Field Name="Barcode3"><DataField>Barcode3</DataField></Field>
+        <Field Name="Barcode1_Img"><DataField>Barcode1_Img</DataField></Field>
+        <Field Name="Barcode2_Img"><DataField>Barcode2_Img</DataField></Field>
+        <Field Name="Barcode3_Img"><DataField>Barcode3_Img</DataField></Field>
+        <Field Name="ReportNote"><DataField>ReportNote</DataField></Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <ReportItems>
+          <Tablix Name="TablixMain">
+            <TablixBody>
+              <TablixColumns>
+                <TablixColumn><Width>19cm</Width></TablixColumn>
+              </TablixColumns>
+              <TablixRows>
+                <TablixRow>
+                  <Height>27.7cm</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Rectangle Name="RectPage">
+                          <ReportItems>
+                            
+                            <!-- ========== 第一聯：學校存根聯 ========== -->
+                            <Rectangle Name="Section1">
+                              <Top>0cm</Top>
+                              <Left>0cm</Left>
+                              <Width>19cm</Width>
+                              <Height>8.6cm</Height>
+                              <Style>
+                                <Border><Style>Solid</Style><Width>1pt</Width></Border>
+                              </Style>
+                              <ReportItems>
+                                <!-- 標題 -->
+                                <Textbox Name="Title1">
+                                  <Top>0.2cm</Top>
+                                  <Left>0.3cm</Left>
+                                  <Width>18.4cm</Width>
+                                  <Height>0.7cm</Height>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>國立新化高工學生餐費 繳費通知單（學校存根聯）</Value>
+                                          <Style>
+                                            <FontSize>14pt</FontSize>
+                                            <FontWeight>Bold</FontWeight>
+                                          </Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                      <Style>
+                                        <TextAlign>Center</TextAlign>
+                                      </Style>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                  <CanGrow>false</CanGrow>
+                                </Textbox>
+                                
+                                <!-- 學生資訊 -->
+                                <Textbox Name="S1_Class">
+                                  <Top>1.1cm</Top>
+                                  <Left>0.3cm</Left>
+                                  <Width>4.5cm</Width>
+                                  <Height>0.5cm</Height>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>="班級：" &amp; Fields!ClassName.Value</Value>
+                                          <Style><FontSize>10pt</FontSize></Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                </Textbox>
+                                <Textbox Name="S1_Seat">
+                                  <Top>1.1cm</Top>
+                                  <Left>4.8cm</Left>
+                                  <Width>3cm</Width>
+                                  <Height>0.5cm</Height>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>="座號：" &amp; Fields!SeatNumber.Value</Value>
+                                          <Style><FontSize>10pt</FontSize></Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                </Textbox>
+                                <Textbox Name="S1_Name">
+                                  <Top>1.1cm</Top>
+                                  <Left>7.8cm</Left>
+                                  <Width>5cm</Width>
+                                  <Height>0.5cm</Height>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>="姓名：" &amp; Fields!ParentName.Value</Value>
+                                          <Style><FontSize>10pt</FontSize></Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                </Textbox>
+                                <Textbox Name="S1_StuId">
+                                  <Top>1.1cm</Top>
+                                  <Left>12.8cm</Left>
+                                  <Width>5.5cm</Width>
+                                  <Height>0.5cm</Height>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>="學號：" &amp; Fields!StudentId.Value</Value>
+                                          <Style><FontSize>10pt</FontSize></Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                </Textbox>
+                                
+                                <!-- 費用明細表 -->
+                                <Textbox Name="S1_LblFee1">
+                                  <Top>1.8cm</Top>
+                                  <Left>0.3cm</Left>
+                                  <Width>3.5cm</Width>
+                                  <Height>0.5cm</Height>
+                                  <Style>
+                                    <Border><Style>Solid</Style><Width>0.5pt</Width></Border>
+                                    <PaddingLeft>3pt</PaddingLeft>
+                                    <VerticalAlign>Middle</VerticalAlign>
+                                  </Style>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>學期午餐費用</Value>
+                                          <Style><FontSize>9pt</FontSize></Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                </Textbox>
+                                <Textbox Name="S1_ValFee1">
+                                  <Top>1.8cm</Top>
+                                  <Left>3.8cm</Left>
+                                  <Width>2cm</Width>
+                                  <Height>0.5cm</Height>
+                                  <Style>
+                                    <Border><Style>Solid</Style><Width>0.5pt</Width></Border>
+                                    <PaddingRight>3pt</PaddingRight>
+                                    <VerticalAlign>Middle</VerticalAlign>
+                                    <Format>N0</Format>
+                                  </Style>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>=Fields!LunchFee.Value</Value>
+                                          <Style><FontSize>9pt</FontSize></Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                      <Style><TextAlign>Right</TextAlign></Style>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                </Textbox>
+                                <Textbox Name="S1_LblFee2">
+                                  <Top>1.8cm</Top>
+                                  <Left>5.8cm</Left>
+                                  <Width>3.5cm</Width>
+                                  <Height>0.5cm</Height>
+                                  <Style>
+                                    <Border><Style>Solid</Style><Width>0.5pt</Width></Border>
+                                    <PaddingLeft>3pt</PaddingLeft>
+                                    <VerticalAlign>Middle</VerticalAlign>
+                                  </Style>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>新生訓練餐費</Value>
+                                          <Style><FontSize>9pt</FontSize></Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                </Textbox>
+                                <Textbox Name="S1_ValFee2">
+                                  <Top>1.8cm</Top>
+                                  <Left>9.3cm</Left>
+                                  <Width>2cm</Width>
+                                  <Height>0.5cm</Height>
+                                  <Style>
+                                    <Border><Style>Solid</Style><Width>0.5pt</Width></Border>
+                                    <PaddingRight>3pt</PaddingRight>
+                                    <VerticalAlign>Middle</VerticalAlign>
+                                    <Format>N0</Format>
+                                  </Style>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>=Fields!FreshMilkFee.Value</Value>
+                                          <Style><FontSize>9pt</FontSize></Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                      <Style><TextAlign>Right</TextAlign></Style>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                </Textbox>
+                                
+                                <Textbox Name="S1_LblFee3">
+                                  <Top>2.3cm</Top>
+                                  <Left>0.3cm</Left>
+                                  <Width>3.5cm</Width>
+                                  <Height>0.5cm</Height>
+                                  <Style>
+                                    <Border><Style>Solid</Style><Width>0.5pt</Width></Border>
+                                    <PaddingLeft>3pt</PaddingLeft>
+                                    <VerticalAlign>Middle</VerticalAlign>
+                                  </Style>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>暑期輔導餐費</Value>
+                                          <Style><FontSize>9pt</FontSize></Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                </Textbox>
+                                <Textbox Name="S1_ValFee3">
+                                  <Top>2.3cm</Top>
+                                  <Left>3.8cm</Left>
+                                  <Width>2cm</Width>
+                                  <Height>0.5cm</Height>
+                                  <Style>
+                                    <Border><Style>Solid</Style><Width>0.5pt</Width></Border>
+                                    <PaddingRight>3pt</PaddingRight>
+                                    <VerticalAlign>Middle</VerticalAlign>
+                                    <Format>N0</Format>
+                                  </Style>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>=Fields!SchoolMealFee.Value</Value>
+                                          <Style><FontSize>9pt</FontSize></Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                      <Style><TextAlign>Right</TextAlign></Style>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                </Textbox>
+                                <Textbox Name="S1_LblFee4">
+                                  <Top>2.3cm</Top>
+                                  <Left>5.8cm</Left>
+                                  <Width>3.5cm</Width>
+                                  <Height>0.5cm</Height>
+                                  <Style>
+                                    <Border><Style>Solid</Style><Width>0.5pt</Width></Border>
+                                    <PaddingLeft>3pt</PaddingLeft>
+                                    <VerticalAlign>Middle</VerticalAlign>
+                                  </Style>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>退前一學期餐費</Value>
+                                          <Style><FontSize>9pt</FontSize></Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                </Textbox>
+                                <Textbox Name="S1_ValFee4">
+                                  <Top>2.3cm</Top>
+                                  <Left>9.3cm</Left>
+                                  <Width>2cm</Width>
+                                  <Height>0.5cm</Height>
+                                  <Style>
+                                    <Border><Style>Solid</Style><Width>0.5pt</Width></Border>
+                                    <PaddingRight>3pt</PaddingRight>
+                                    <VerticalAlign>Middle</VerticalAlign>
+                                    <Format>N0</Format>
+                                  </Style>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>=Fields!AfterSchoolFee.Value</Value>
+                                          <Style><FontSize>9pt</FontSize></Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                      <Style><TextAlign>Right</TextAlign></Style>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                </Textbox>
+                                
+                                <Textbox Name="S1_LblFee5">
+                                  <Top>2.8cm</Top>
+                                  <Left>0.3cm</Left>
+                                  <Width>3.5cm</Width>
+                                  <Height>0.5cm</Height>
+                                  <Style>
+                                    <Border><Style>Solid</Style><Width>0.5pt</Width></Border>
+                                    <PaddingLeft>3pt</PaddingLeft>
+                                    <VerticalAlign>Middle</VerticalAlign>
+                                  </Style>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>超商代收手續費</Value>
+                                          <Style><FontSize>9pt</FontSize></Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                </Textbox>
+                                <Textbox Name="S1_ValFee5">
+                                  <Top>2.8cm</Top>
+                                  <Left>3.8cm</Left>
+                                  <Width>2cm</Width>
+                                  <Height>0.5cm</Height>
+                                  <Style>
+                                    <Border><Style>Solid</Style><Width>0.5pt</Width></Border>
+                                    <PaddingRight>3pt</PaddingRight>
+                                    <VerticalAlign>Middle</VerticalAlign>
+                                    <Format>N0</Format>
+                                  </Style>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>=Fields!AgencyFee.Value</Value>
+                                          <Style><FontSize>9pt</FontSize></Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                      <Style><TextAlign>Right</TextAlign></Style>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                </Textbox>
+                                <Textbox Name="S1_LblTotal">
+                                  <Top>2.8cm</Top>
+                                  <Left>5.8cm</Left>
+                                  <Width>3.5cm</Width>
+                                  <Height>0.5cm</Height>
+                                  <Style>
+                                    <Border><Style>Solid</Style><Width>0.5pt</Width></Border>
+                                    <PaddingLeft>3pt</PaddingLeft>
+                                    <VerticalAlign>Middle</VerticalAlign>
+                                    <BackgroundColor>LightGray</BackgroundColor>
+                                  </Style>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>應繳金額</Value>
+                                          <Style><FontSize>9pt</FontSize><FontWeight>Bold</FontWeight></Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                </Textbox>
+                                <Textbox Name="S1_ValTotal">
+                                  <Top>2.8cm</Top>
+                                  <Left>9.3cm</Left>
+                                  <Width>2cm</Width>
+                                  <Height>0.5cm</Height>
+                                  <Style>
+                                    <Border><Style>Solid</Style><Width>0.5pt</Width></Border>
+                                    <PaddingRight>3pt</PaddingRight>
+                                    <VerticalAlign>Middle</VerticalAlign>
+                                    <BackgroundColor>LightGray</BackgroundColor>
+                                    <Format>N0</Format>
+                                  </Style>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>=Fields!TotalFee.Value</Value>
+                                          <Style><FontSize>9pt</FontSize><FontWeight>Bold</FontWeight></Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                      <Style><TextAlign>Right</TextAlign></Style>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                </Textbox>
+                                
+                                <!-- 繳費資訊 -->
+                                <Textbox Name="S1_Amount">
+                                  <Top>3.6cm</Top>
+                                  <Left>0.3cm</Left>
+                                  <Width>11cm</Width>
+                                  <Height>0.6cm</Height>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>="實繳金額：NT$ " &amp; Format(Fields!TotalFeeAlt.Value, "N0") &amp; " 元整（" &amp; Fields!FeeDetails.Value &amp; "）"</Value>
+                                          <Style><FontSize>11pt</FontSize><FontWeight>Bold</FontWeight></Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                </Textbox>
+                                <Textbox Name="S1_Deadline">
+                                  <Top>4.3cm</Top>
+                                  <Left>0.3cm</Left>
+                                  <Width>6cm</Width>
+                                  <Height>0.5cm</Height>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>="繳費期限：" &amp; Fields!ParentNote.Value</Value>
+                                          <Style><FontSize>10pt</FontSize></Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                </Textbox>
+                                <Textbox Name="S1_AccNo">
+                                  <Top>4.3cm</Top>
+                                  <Left>6.3cm</Left>
+                                  <Width>6cm</Width>
+                                  <Height>0.5cm</Height>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>="銷帳編號：" &amp; Fields!ContactInfo.Value</Value>
+                                          <Style><FontSize>10pt</FontSize></Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                </Textbox>
+                                
+                                <!-- 條碼區域 -->
+                                <Rectangle Name="S1_BarcodeArea">
+                                  <Top>5cm</Top>
+                                  <Left>11.5cm</Left>
+                                  <Width>7cm</Width>
+                                  <Height>3.5cm</Height>
+                                  <Style>
+                                    <Border><Style>Solid</Style><Width>0.5pt</Width></Border>
+                                  </Style>
+                                  <ReportItems>
+                                    <Image Name="S1_BC1_Img">
+                                      <Top>0.1cm</Top>
+                                      <Left>0.1cm</Left>
+                                      <Width>6.8cm</Width>
+                                      <Height>1cm</Height>
+                                      <Source>Database</Source><MIMEType>image/png</MIMEType><Value>=Fields!Barcode1_Img.Value</Value>
+                                      <Sizing>Fit</Sizing>
+                                    </Image>
+                                    <Image Name="S1_BC2_Img">
+                                      <Top>1.2cm</Top>
+                                      <Left>0.1cm</Left>
+                                      <Width>6.8cm</Width>
+                                      <Height>1cm</Height>
+                                      <Source>Database</Source><MIMEType>image/png</MIMEType><Value>=Fields!Barcode2_Img.Value</Value>
+                                      <Sizing>Fit</Sizing>
+                                    </Image>
+                                    <Image Name="S1_BC3_Img">
+                                      <Top>2.3cm</Top>
+                                      <Left>0.1cm</Left>
+                                      <Width>6.8cm</Width>
+                                      <Height>1cm</Height>
+                                      <Source>Database</Source><MIMEType>image/png</MIMEType><Value>=Fields!Barcode3_Img.Value</Value>
+                                      <Sizing>Fit</Sizing>
+                                    </Image>
+                                  </ReportItems>
+                                </Rectangle>
+                                
+                                <!-- 備註 -->
+                                <Textbox Name="S1_Note">
+                                  <Top>5cm</Top>
+                                  <Left>0.3cm</Left>
+                                  <Width>11cm</Width>
+                                  <Height>3.5cm</Height>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>備註：請於繳費期限內至超商繳費</Value>
+                                          <Style><FontSize>9pt</FontSize></Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                </Textbox>
+                              </ReportItems>
+                            </Rectangle>
+                            
+                            <!-- ========== 第一聯與第二聯之間的虛線（切割線） ========== -->
+                            <Line Name="CutLine1">
+                              <Top>8.85cm</Top>
+                              <Left>0cm</Left>
+                              <Width>19cm</Width>
+                              <Height>0cm</Height>
+                              <Style>
+                                <Border>
+                                  <Style>Dashed</Style>
+                                  <Width>1pt</Width>
+                                  <Color>Black</Color>
+                                </Border>
+                              </Style>
+                            </Line>
+                            
+                            <!-- ========== 第二聯：繳費人存根聯 ========== -->
+                            <Rectangle Name="Section2">
+                              <Top>9.1cm</Top>
+                              <Left>0cm</Left>
+                              <Width>19cm</Width>
+                              <Height>8.6cm</Height>
+                              <Style>
+                                <Border><Style>Solid</Style><Width>1pt</Width></Border>
+                              </Style>
+                              <ReportItems>
+                                <!-- 標題 -->
+                                <Textbox Name="Title2">
+                                  <Top>0.2cm</Top>
+                                  <Left>0.3cm</Left>
+                                  <Width>18.4cm</Width>
+                                  <Height>0.7cm</Height>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>國立新化高工學生餐費 繳費通知單（繳費人存根聯）</Value>
+                                          <Style><FontSize>14pt</FontSize><FontWeight>Bold</FontWeight></Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                      <Style><TextAlign>Center</TextAlign></Style>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                  <CanGrow>false</CanGrow>
+                                </Textbox>
+                                
+                                <!-- 學生資訊 -->
+                                <Textbox Name="S2_Class">
+                                  <Top>1.1cm</Top>
+                                  <Left>0.3cm</Left>
+                                  <Width>4.5cm</Width>
+                                  <Height>0.5cm</Height>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>="班級：" &amp; Fields!ClassName.Value</Value>
+                                          <Style><FontSize>10pt</FontSize></Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                </Textbox>
+                                <Textbox Name="S2_Seat">
+                                  <Top>1.1cm</Top>
+                                  <Left>4.8cm</Left>
+                                  <Width>3cm</Width>
+                                  <Height>0.5cm</Height>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>="座號：" &amp; Fields!SeatNumber.Value</Value>
+                                          <Style><FontSize>10pt</FontSize></Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                </Textbox>
+                                <Textbox Name="S2_Name">
+                                  <Top>1.1cm</Top>
+                                  <Left>7.8cm</Left>
+                                  <Width>5cm</Width>
+                                  <Height>0.5cm</Height>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>="姓名：" &amp; Fields!ParentName.Value</Value>
+                                          <Style><FontSize>10pt</FontSize></Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                </Textbox>
+                                <Textbox Name="S2_StuId">
+                                  <Top>1.1cm</Top>
+                                  <Left>12.8cm</Left>
+                                  <Width>5.5cm</Width>
+                                  <Height>0.5cm</Height>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>="學號：" &amp; Fields!StudentId.Value</Value>
+                                          <Style><FontSize>10pt</FontSize></Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                </Textbox>
+                                
+                                <!-- 繳費資訊 -->
+                                <Textbox Name="S2_Amount">
+                                  <Top>1.8cm</Top>
+                                  <Left>0.3cm</Left>
+                                  <Width>11cm</Width>
+                                  <Height>0.6cm</Height>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>="實繳金額：NT$ " &amp; Format(Fields!TotalFeeAlt.Value, "N0") &amp; " 元整"</Value>
+                                          <Style><FontSize>11pt</FontSize><FontWeight>Bold</FontWeight></Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                </Textbox>
+                                <Textbox Name="S2_Deadline">
+                                  <Top>2.5cm</Top>
+                                  <Left>0.3cm</Left>
+                                  <Width>6cm</Width>
+                                  <Height>0.5cm</Height>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>="繳費期限：" &amp; Fields!ParentNote.Value</Value>
+                                          <Style><FontSize>10pt</FontSize></Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                </Textbox>
+                                <Textbox Name="S2_AccNo">
+                                  <Top>2.5cm</Top>
+                                  <Left>6.3cm</Left>
+                                  <Width>6cm</Width>
+                                  <Height>0.5cm</Height>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>="銷帳編號：" &amp; Fields!ContactInfo.Value</Value>
+                                          <Style><FontSize>10pt</FontSize></Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                </Textbox>
+                                
+                                <!-- 條碼區域 -->
+                                <Rectangle Name="S2_BarcodeArea">
+                                  <Top>3.2cm</Top>
+                                  <Left>0.3cm</Left>
+                                  <Width>18.4cm</Width>
+                                  <Height>3.8cm</Height>
+                                  <ReportItems>
+                                    <Image Name="S2_BC1_Img">
+                                      <Top>0.1cm</Top>
+                                      <Left>0.1cm</Left>
+                                      <Width>6cm</Width>
+                                      <Height>1cm</Height>
+                                      <Source>Database</Source><MIMEType>image/png</MIMEType><Value>=Fields!Barcode1_Img.Value</Value>
+                                      <Sizing>Fit</Sizing>
+                                    </Image>
+                                    <Textbox Name="S2_BC1">
+                                      <Top>1.1cm</Top>
+                                      <Left>0.1cm</Left>
+                                      <Width>6cm</Width>
+                                      <Height>0.4cm</Height>
+                                      <Paragraphs>
+                                        <Paragraph>
+                                          <TextRuns>
+                                            <TextRun>
+                                              <Value>=Fields!Barcode1.Value</Value>
+                                              <Style><FontSize>8pt</FontSize><FontFamily>Consolas</FontFamily></Style>
+                                            </TextRun>
+                                          </TextRuns>
+                                          <Style><TextAlign>Center</TextAlign></Style>
+                                        </Paragraph>
+                                      </Paragraphs>
+                                    </Textbox>
+                                    <Image Name="S2_BC2_Img">
+                                      <Top>0.1cm</Top>
+                                      <Left>6.2cm</Left>
+                                      <Width>6cm</Width>
+                                      <Height>1cm</Height>
+                                      <Source>Database</Source><MIMEType>image/png</MIMEType><Value>=Fields!Barcode2_Img.Value</Value>
+                                      <Sizing>Fit</Sizing>
+                                    </Image>
+                                    <Textbox Name="S2_BC2">
+                                      <Top>1.1cm</Top>
+                                      <Left>6.2cm</Left>
+                                      <Width>6cm</Width>
+                                      <Height>0.4cm</Height>
+                                      <Paragraphs>
+                                        <Paragraph>
+                                          <TextRuns>
+                                            <TextRun>
+                                              <Value>=Fields!Barcode2.Value</Value>
+                                              <Style><FontSize>8pt</FontSize><FontFamily>Consolas</FontFamily></Style>
+                                            </TextRun>
+                                          </TextRuns>
+                                          <Style><TextAlign>Center</TextAlign></Style>
+                                        </Paragraph>
+                                      </Paragraphs>
+                                    </Textbox>
+                                    <Image Name="S2_BC3_Img">
+                                      <Top>0.1cm</Top>
+                                      <Left>12.3cm</Left>
+                                      <Width>6cm</Width>
+                                      <Height>1cm</Height>
+                                      <Source>Database</Source><MIMEType>image/png</MIMEType><Value>=Fields!Barcode3_Img.Value</Value>
+                                      <Sizing>Fit</Sizing>
+                                    </Image>
+                                    <Textbox Name="S2_BC3">
+                                      <Top>1.1cm</Top>
+                                      <Left>12.3cm</Left>
+                                      <Width>6cm</Width>
+                                      <Height>0.4cm</Height>
+                                      <Paragraphs>
+                                        <Paragraph>
+                                          <TextRuns>
+                                            <TextRun>
+                                              <Value>=Fields!Barcode3.Value</Value>
+                                              <Style><FontSize>8pt</FontSize><FontFamily>Consolas</FontFamily></Style>
+                                            </TextRun>
+                                          </TextRuns>
+                                          <Style><TextAlign>Center</TextAlign></Style>
+                                        </Paragraph>
+                                      </Paragraphs>
+                                    </Textbox>
+                                  </ReportItems>
+                                </Rectangle>
+                                
+                                <!-- 備註 -->
+                                <Textbox Name="S2_Note">
+                                  <Top>7.2cm</Top>
+                                  <Left>0.3cm</Left>
+                                  <Width>18.4cm</Width>
+                                  <Height>1.3cm</Height>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>=Fields!ReportNote.Value</Value>
+                                          <Style><FontSize>9pt</FontSize></Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                </Textbox>
+                              </ReportItems>
+                            </Rectangle>
+                            
+                            <!-- ========== 第二聯與第三聯之間的虛線（切割線） ========== -->
+                            <Line Name="CutLine2">
+                              <Top>17.95cm</Top>
+                              <Left>0cm</Left>
+                              <Width>19cm</Width>
+                              <Height>0cm</Height>
+                              <Style>
+                                <Border>
+                                  <Style>Dashed</Style>
+                                  <Width>1pt</Width>
+                                  <Color>Black</Color>
+                                </Border>
+                              </Style>
+                            </Line>
+                            
+                            <!-- ========== 第三聯：超商繳款聯 ========== -->
+                            <Rectangle Name="Section3">
+                              <Top>18.2cm</Top>
+                              <Left>0cm</Left>
+                              <Width>19cm</Width>
+                              <Height>9.4cm</Height>
+                              <Style>
+                                <Border><Style>Solid</Style><Width>1pt</Width></Border>
+                              </Style>
+                              <ReportItems>
+                                <!-- 標題 -->
+                                <Textbox Name="Title3">
+                                  <Top>0.2cm</Top>
+                                  <Left>0.3cm</Left>
+                                  <Width>18.4cm</Width>
+                                  <Height>0.7cm</Height>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>國立新化高工學生餐費 超商繳款聯</Value>
+                                          <Style><FontSize>14pt</FontSize><FontWeight>Bold</FontWeight></Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                      <Style><TextAlign>Center</TextAlign></Style>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                  <CanGrow>false</CanGrow>
+                                </Textbox>
+                                
+                                <!-- 繳費資訊 -->
+                                <Textbox Name="S3_Name">
+                                  <Top>1.1cm</Top>
+                                  <Left>0.3cm</Left>
+                                  <Width>6cm</Width>
+                                  <Height>0.5cm</Height>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>="繳款人：" &amp; Fields!ParentName.Value</Value>
+                                          <Style><FontSize>10pt</FontSize></Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                </Textbox>
+                                <Textbox Name="S3_Class">
+                                  <Top>1.1cm</Top>
+                                  <Left>6.3cm</Left>
+                                  <Width>4cm</Width>
+                                  <Height>0.5cm</Height>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>="班級：" &amp; Fields!ClassName.Value</Value>
+                                          <Style><FontSize>10pt</FontSize></Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                </Textbox>
+                                <Textbox Name="S3_StuId">
+                                  <Top>1.1cm</Top>
+                                  <Left>10.3cm</Left>
+                                  <Width>8cm</Width>
+                                  <Height>0.5cm</Height>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>="學號：" &amp; Fields!StudentId.Value</Value>
+                                          <Style><FontSize>10pt</FontSize></Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                </Textbox>
+                                
+                                <Textbox Name="S3_Amount">
+                                  <Top>1.8cm</Top>
+                                  <Left>0.3cm</Left>
+                                  <Width>9cm</Width>
+                                  <Height>0.6cm</Height>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>="應繳金額：NT$ " &amp; Format(Fields!TotalFeeAlt.Value, "N0")</Value>
+                                          <Style><FontSize>12pt</FontSize><FontWeight>Bold</FontWeight></Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                </Textbox>
+                                <Textbox Name="S3_AmountCN">
+                                  <Top>1.8cm</Top>
+                                  <Left>9.3cm</Left>
+                                  <Width>9cm</Width>
+                                  <Height>0.6cm</Height>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>="（" &amp; Fields!FeeDetails.Value &amp; "）"</Value>
+                                          <Style><FontSize>10pt</FontSize></Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                </Textbox>
+                                
+                                <Textbox Name="S3_Deadline">
+                                  <Top>2.5cm</Top>
+                                  <Left>0.3cm</Left>
+                                  <Width>6cm</Width>
+                                  <Height>0.5cm</Height>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>="繳費期限：" &amp; Fields!ParentNote.Value</Value>
+                                          <Style><FontSize>10pt</FontSize></Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                </Textbox>
+                                <Textbox Name="S3_AccNo">
+                                  <Top>2.5cm</Top>
+                                  <Left>6.3cm</Left>
+                                  <Width>12cm</Width>
+                                  <Height>0.5cm</Height>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>="銷帳編號：" &amp; Fields!ContactInfo.Value</Value>
+                                          <Style><FontSize>10pt</FontSize></Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                </Textbox>
+                                
+                                <!-- 條碼區域 -->
+                                <Textbox Name="S3_BarcodeTitle">
+                                  <Top>3.2cm</Top>
+                                  <Left>0.3cm</Left>
+                                  <Width>18.4cm</Width>
+                                  <Height>0.5cm</Height>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>【超商繳費條碼】</Value>
+                                          <Style><FontSize>10pt</FontSize><FontWeight>Bold</FontWeight></Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                      <Style><TextAlign>Center</TextAlign></Style>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                </Textbox>
+                                
+                                <Rectangle Name="S3_BarcodeArea">
+                                  <Top>3.8cm</Top>
+                                  <Left>0.3cm</Left>
+                                  <Width>18.4cm</Width>
+                                  <Height>4cm</Height>
+                                  <ReportItems>
+                                    <Image Name="S3_BC1_Img">
+                                      <Top>0.1cm</Top>
+                                      <Left>0.1cm</Left>
+                                      <Width>6cm</Width>
+                                      <Height>1.2cm</Height>
+                                      <Source>Database</Source><MIMEType>image/png</MIMEType><Value>=Fields!Barcode1_Img.Value</Value>
+                                      <Sizing>Fit</Sizing>
+                                    </Image>
+                                    <Textbox Name="S3_BC1">
+                                      <Top>1.4cm</Top>
+                                      <Left>0.1cm</Left>
+                                      <Width>6cm</Width>
+                                      <Height>0.4cm</Height>
+                                      <Paragraphs>
+                                        <Paragraph>
+                                          <TextRuns>
+                                            <TextRun>
+                                              <Value>=Fields!Barcode1.Value</Value>
+                                              <Style><FontSize>9pt</FontSize><FontFamily>Consolas</FontFamily></Style>
+                                            </TextRun>
+                                          </TextRuns>
+                                          <Style><TextAlign>Center</TextAlign></Style>
+                                        </Paragraph>
+                                      </Paragraphs>
+                                    </Textbox>
+                                    <Image Name="S3_BC2_Img">
+                                      <Top>0.1cm</Top>
+                                      <Left>6.2cm</Left>
+                                      <Width>6cm</Width>
+                                      <Height>1.2cm</Height>
+                                      <Source>Database</Source><MIMEType>image/png</MIMEType><Value>=Fields!Barcode2_Img.Value</Value>
+                                      <Sizing>Fit</Sizing>
+                                    </Image>
+                                    <Textbox Name="S3_BC2">
+                                      <Top>1.4cm</Top>
+                                      <Left>6.2cm</Left>
+                                      <Width>6cm</Width>
+                                      <Height>0.4cm</Height>
+                                      <Paragraphs>
+                                        <Paragraph>
+                                          <TextRuns>
+                                            <TextRun>
+                                              <Value>=Fields!Barcode2.Value</Value>
+                                              <Style><FontSize>9pt</FontSize><FontFamily>Consolas</FontFamily></Style>
+                                            </TextRun>
+                                          </TextRuns>
+                                          <Style><TextAlign>Center</TextAlign></Style>
+                                        </Paragraph>
+                                      </Paragraphs>
+                                    </Textbox>
+                                    <Image Name="S3_BC3_Img">
+                                      <Top>0.1cm</Top>
+                                      <Left>12.3cm</Left>
+                                      <Width>6cm</Width>
+                                      <Height>1.2cm</Height>
+                                      <Source>Database</Source><MIMEType>image/png</MIMEType><Value>=Fields!Barcode3_Img.Value</Value>
+                                      <Sizing>Fit</Sizing>
+                                    </Image>
+                                    <Textbox Name="S3_BC3">
+                                      <Top>1.4cm</Top>
+                                      <Left>12.3cm</Left>
+                                      <Width>6cm</Width>
+                                      <Height>0.4cm</Height>
+                                      <Paragraphs>
+                                        <Paragraph>
+                                          <TextRuns>
+                                            <TextRun>
+                                              <Value>=Fields!Barcode3.Value</Value>
+                                              <Style><FontSize>9pt</FontSize><FontFamily>Consolas</FontFamily></Style>
+                                            </TextRun>
+                                          </TextRuns>
+                                          <Style><TextAlign>Center</TextAlign></Style>
+                                        </Paragraph>
+                                      </Paragraphs>
+                                    </Textbox>
+                                    
+                                    <Textbox Name="S3_ConvLabel">
+                                      <Top>2cm</Top>
+                                      <Left>0.1cm</Left>
+                                      <Width>18.2cm</Width>
+                                      <Height>0.5cm</Height>
+                                      <Paragraphs>
+                                        <Paragraph>
+                                          <TextRuns>
+                                            <TextRun>
+                                              <Value>可至第一銀行或代收超商(僅限7-ELEVEN、全家、萊爾富) 繳費</Value>
+                                              <Style><FontSize>9pt</FontSize></Style>
+                                            </TextRun>
+                                          </TextRuns>
+                                          <Style><TextAlign>Center</TextAlign></Style>
+                                        </Paragraph>
+                                      </Paragraphs>
+                                    </Textbox>
+                                  </ReportItems>
+                                </Rectangle>
+                                
+                                <!-- 頁尾 -->
+                                <Textbox Name="S3_Footer">
+                                  <Top>8cm</Top>
+                                  <Left>0.3cm</Left>
+                                  <Width>18.4cm</Width>
+                                  <Height>1.2cm</Height>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>※ 本聯由銀行或超商收執 ※ 請妥善保管繳費收據作為繳費證明</Value>
+                                          <Style><FontSize>9pt</FontSize></Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                      <Style><TextAlign>Center</TextAlign></Style>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                </Textbox>
+                              </ReportItems>
+                            </Rectangle>
+                            
+                          </ReportItems>
+                          <KeepTogether>true</KeepTogether>
+                        </Rectangle>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+              </TablixRows>
+            </TablixBody>
+            <TablixColumnHierarchy>
+              <TablixMembers>
+                <TablixMember />
+              </TablixMembers>
+            </TablixColumnHierarchy>
+            <TablixRowHierarchy>
+              <TablixMembers>
+                <TablixMember>
+                  <Group Name="DetailGroup" />
+                </TablixMember>
+              </TablixMembers>
+            </TablixRowHierarchy>
+            <DataSetName>ReportData</DataSetName>
+          </Tablix>
+        </ReportItems>
+        <Height>27.7cm</Height>
+        <Style />
+      </Body>
+      <Width>19cm</Width>
+      <Page>
+        <PageHeight>29.7cm</PageHeight>
+        <PageWidth>21cm</PageWidth>
+        <LeftMargin>1cm</LeftMargin>
+        <RightMargin>1cm</RightMargin>
+        <TopMargin>1cm</TopMargin>
+        <BottomMargin>1cm</BottomMargin>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+</Report>

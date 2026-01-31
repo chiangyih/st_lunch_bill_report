@@ -1,0 +1,19 @@
+﻿{
+  "ClassName": "班級",
+  "ParentName": "姓名",
+  "StudentId": "學號",
+  "SeatNumber": "座號",
+  "LunchFee": "學期午餐金額",
+  "FreshMilkFee": "新生訓練午餐費",
+  "SchoolMealFee": "暑期輔導午餐費",
+  "AfterSchoolFee": "退前一學期午餐費",
+  "AgencyFee": "超商代收手續費",
+  "TotalFee": "應繳金額",
+  "TotalFeeAlt": "實繳金額",
+  "FeeDetails": "實繳金額中文",
+  "ParentNote": "繳費截止日",
+  "ContactInfo": "原始銷帳編號",
+  "Barcode1": "第1段條碼",
+  "Barcode2": "第2段條碼",
+  "Barcode3": "第3段條碼"
+}
