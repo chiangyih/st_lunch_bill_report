@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:st_lunch_bill_report"
         mc:Ignorable="d"
-        Title="午餐三聯式繳費單產生器" Height="720" Width="960"
+        Title="國立新化高工午餐三聯式繳費單系統" Height="720" Width="960"
         WindowStartupLocation="CenterScreen"
         Background="#F0F4F8"
         Closing="Window_Closing">
@@ -237,10 +237,10 @@
         <!-- 標題區塊 -->
         <Border Grid.Row="0" Margin="0,0,0,16">
             <StackPanel>
-                <TextBlock Text="🍱 午餐三聯式繳費單產生器" 
+                <TextBlock Text="🍱 國立新化高工午餐三聯式繳費單" 
                            FontSize="24" FontWeight="Bold" 
                            Foreground="{StaticResource TextPrimary}"/>
-                <TextBlock Text="國立新化高工學生餐費管理系統" 
+                <TextBlock Text="國立新化高工學生餐費繳費單系統" 
                            FontSize="13" Foreground="{StaticResource TextSecondary}" 
                            Margin="0,4,0,0"/>
             </StackPanel>

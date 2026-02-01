@@ -9,7 +9,7 @@ using st_lunch_bill_report.Services;
 namespace st_lunch_bill_report;
 
 /// <summary>
-/// 午餐三聯式繳費單產生器主視窗
+/// 國立新化高工午餐三聯式繳費單產生器主視窗
 /// </summary>
 public partial class MainWindow : Window
 {
