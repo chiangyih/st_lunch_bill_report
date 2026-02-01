@@ -3,9 +3,9 @@
 | 項目 | 內容 |
 |------|------|
 | 文件編號 | SSD-LUNCHBILL-001 |
-| 版本 | v2.0 |
+| 版本 | v2.1 |
 | 狀態 | Released |
-| 最後更新 | 2025-01-31（Asia/Taipei） |
+| 最後更新 | 2025-02-01（Asia/Taipei） |
 | 專案名稱 | st_lunch_bill_report |
 | 開發單位 | 國立新化高工 |
 | 審核者 | — |
@@ -20,6 +20,7 @@
 | v1.5 | 2024-01-31 | 新增 §4.3.3 動態 SQL 組建規則、§6.5 預覽模式規範 | — |
 | v1.6 | 2024-01-31 | SSD 優化：修正章節編號、新增需求編號、補充修訂歷史 | — |
 | v2.0 | 2025-01-31 | 重大更新：<br/>- 更新為 .NET 10 架構<br/>- 新增學年度/學期選擇功能<br/>- 新增報表備註自訂功能<br/>- 更新 UI 設計規範（現代化 WPF UI）<br/>- 更新報表版面規範（A4 三聯式，含虛線切割線）<br/>- 明確定義繳費期限格式轉換規則<br/>- 補充條碼生成實作細節（ZXing.Net）<br/>- 更新欄位映射規範<br/>- 補充資料驗證與錯誤處理流程 | — |
+| v2.1 | 2025-02-01 | 實作版更新：<br/>- 根據實際程式碼更新規格<br/>- 修正 NuGet 套件版本（使用 ReportViewerCore.NETCore 15.x）<br/>- 更新專案結構說明<br/>- 補充實際實作的檔案清單<br/>- 修正欄位映射機制說明<br/>- 更新授權為 AGPL 3.0 | — |
 
 ---
 
@@ -93,26 +94,90 @@
 ### 3.3 核心 NuGet 套件
 | 套件名稱 | 版本 | 用途 |
 |----------|------|------|
-| Microsoft.Reporting.NETCore | 1.1.0+ | RDLC 報表引擎 |
-| System.Data.OleDb | 8.0.0+ | Access 資料庫連接 |
-| ZXing.Net | 0.16.9+ | 條碼圖片生成 |
-| ZXing.Net.Bindings.Windows.Compatibility | 0.16.12+ | Windows 平台相容性 |
+| ReportViewerCore.NETCore | 15.x | RDLC 報表引擎（LocalReport） |
+| System.Data.OleDb | 9.x | Access 資料庫連接 |
+| ZXing.Net | 0.16.x | 條碼圖片生成（Code39） |
+| System.Drawing.Common | 9.x | 圖片處理（條碼 Bitmap） |
+| System.Text.Encoding.CodePages | 9.x | 編碼支援（中文欄位名稱） |
 
 ### 3.4 專案結構
 ```
 st_lunch_bill_report/
-├── MainWindow.xaml          # 主視窗 UI
-├── MainWindow.xaml.cs       # 主視窗邏輯
-├── App.xaml                 # 應用程式設定
+├── App.xaml                        # 應用程式定義
+├── App.xaml.cs                     # 應用程式邏輯
+├── MainWindow.xaml                 # 主視窗 UI
+├── MainWindow.xaml.cs              # 主視窗邏輯
+├── AssemblyInfo.cs                 # 組件資訊
+├── Models/
+│   └── PaymentSlipData.cs          # 繳費單資料模型（未使用）
 ├── Services/
-│   ├── DatabaseService.cs   # 資料庫存取服務
-│   └── ReportService.cs     # 報表產生服務
+│   ├── DatabaseService.cs          # 資料庫存取服務
+│   └── ReportService.cs            # 報表產生服務
 ├── Reports/
-│   └── LunchBill3Part.rdlc  # RDLC 報表定義
-├── fieldmap.json            # 欄位對應設定（可選）
-├── README.md                # 專案說明文件
-└── spec.md                  # 本規格書
+│   └── LunchBill3Part.rdlc         # RDLC 報表定義
+├── fieldmap.json                   # 欄位對應設定（必要）
+├── st_lunch_bill_report.csproj     # 專案檔
+├── README.md                       # 專案說明文件
+├── spec.md                         # 本規格書（SSD）
+└── LICENSE.txt                     # AGPL 3.0 授權
 ```
+
+### 3.5 服務架構說明
+
+#### 3.5.1 DatabaseService（資料庫服務）
+**職責**：
+- 管理 Access 資料庫連接（OleDbConnection）
+- 載入並解析 `fieldmap.json` 欄位映射設定
+- 讀取資料表與查詢清單
+- 動態組建 SQL 查詢（根據欄位映射）
+- 執行查詢並回傳 DataTable
+
+**核心方法**：
+- `GetTableAndQueryNames(string databasePath)` - 取得資料來源清單
+- `LoadData(string databasePath, string tableName)` - 載入資料
+- `LoadFieldMapping()` - 載入欄位映射（支援 UTF-8）
+- `GetConnectionString(string databasePath)` - 產生連接字串
+
+**欄位映射處理**：
+1. 嘗試從 `fieldmap.json` 載入映射
+2. 若失敗則使用內建預設映射
+3. 動態組建 SQL 時使用 `AS` 別名轉換欄位名
+
+#### 3.5.2 ReportService（報表服務）
+**職責**：
+- 初始化 LocalReport（RDLC）
+- 產生 Code39 條碼圖片（ZXing.Net）
+- 將條碼 byte[] 加入 DataTable
+- 匯出 PDF / 列印 / 預覽
+
+**核心方法**：
+- `GenerateBarcodeImages(DataTable data)` - 批次產生條碼圖片
+- `GenerateCode39Barcode(string content)` - 單一條碼生成
+- `ExportToPdf(DataTable data, string outputPath, string reportNote)` - 匯出 PDF
+- `Preview(DataTable data, string reportNote)` - 產生暫存 PDF 並開啟
+- `Print(DataTable data, string reportNote)` - 列印
+
+**條碼生成流程**：
+1. 新增 `Barcode1_Img`、`Barcode2_Img`、`Barcode3_Img` 欄位
+2. 讀取 `Barcode1`、`Barcode2`、`Barcode3` 內容
+3. 使用 ZXing.Net 產生 Code39 圖片（PNG byte[]）
+4. 儲存回 DataTable
+
+#### 3.5.3 MainWindow（主視窗）
+**職責**：
+- UI 事件處理
+- 服務協調（DatabaseService + ReportService）
+- Log 記錄與狀態顯示
+- 學年度/學期自動判斷
+- 暫存檔案管理
+
+**主要事件處理**：
+- `BtnSelectDatabase_Click` - 選擇資料庫
+- `CmbDataSource_SelectionChanged` - 載入資料
+- `BtnPreview_Click` - 預覽報表
+- `BtnExportPdf_Click` - 匯出 PDF
+- `BtnPrint_Click` - 列印
+- `Window_Closing` - 清理暫存檔案
 
 ---
 
@@ -168,7 +233,14 @@ st_lunch_bill_report/
 ### 4.3 欄位映射機制
 
 #### 4.3.1 映射設定檔（fieldmap.json）
-程式支援透過 `fieldmap.json` 設定檔自訂欄位映射，範例格式：
+程式**必須**透過 `fieldmap.json` 設定檔定義欄位映射。檔案需與執行檔同目錄，使用 UTF-8 編碼。
+
+**實際實作機制**：
+1. 程式啟動時自動載入 `fieldmap.json`
+2. 若檔案不存在或格式錯誤，使用內建預設映射（見下方範例）
+3. 映射定義格式：`"標準欄位名": "Access 資料庫欄位名"`
+
+**完整範例格式**：
 
 ```json
 {
@@ -230,70 +302,6 @@ ORDER BY [班級], [座號], [學號]
 ```csharp
 var rocYear = DateTime.Now.Year - 1911;
 ```
-
----
-本 SSD 以「**報表欄位名稱**」作為 RDLC 的**標準欄位名（Canonical Fields）**。  
-若 `.accdb` 實際欄位名不同，程式必須提供映射（Mapping）以在載入後建立同名 `DataTable` 欄位供 RDLC 使用。
-
-#### 4.3.1 標準欄位名（RDLC 使用）與建議對應
-| RDLC 標準欄位名 | 建議對應的 `.accdb` 欄位名 | 備註 |
-|---|---|---|
-| 科班別 | 班級 |  |
-| 繳款人 | 姓名 |  |
-| 學號 | 學號 | 固定 6 碼（資料庫端已確保） |
-| 座號 | 座號 |  |
-| 學期午餐費用 | 學期午餐金額 |  |
-| 新生訓練餐費 | 新生訓練午餐費 |  |
-| 暑期輔導餐費 | 暑期輔導午餐費 |  |
-| 退前一學期餐費 | 退前一學期午餐費 |  |
-| 超商代收費 | 超商代收手續費 |  |
-| 應繳金額 | 應繳金額 |  |
-| 金額 | 實繳金額 | 報表顯示欄名為「金額」 |
-| 實繳金額中文 | 實繳金額中文 |  |
-| 繳費期限 | 繳費截止日 / 繳費期限 | 依你 `.accdb` 實際欄位為準 |
-| 銷帳編號 | 原始銷帳編號 / 銷帳編號 | 依你 `.accdb` 實際欄位為準 |
-| 第1段條碼 | 第1段條碼 | RDLC 顯示使用條碼圖片欄位（見 §5.3）；不在 RDLC 內以字型產生 |
-| 第2段條碼 | 第2段條碼 | 同上 |
-| 第3段條碼 | 第3段條碼 | 同上 |
-
-#### 4.3.2 映射提供方式
-- **選配** `fieldmap.json`：部署時允許以設定檔調整欄位名（避免重新編譯）。
-- **或** 程式內常數映射：需可維護版本並清楚記錄變更。
-
-> 不論使用哪種方式，程式不得對欄位內容做演算法重算；僅允許「欄位名對應」與「字串/數值格式化（顯示）」。
-
-#### 4.3.3 動態 SQL 組建規則（確保 DataTable 欄位名一致）
-程式需依據映射設定檔（或內建映射常數）**動態組建 SELECT 語法**，使用 `AS` 別名將 Access 實際欄位名轉換為 RDLC 標準欄位名。
-
-**範例**：若 `fieldmap.json` 定義如下映射：
-```json
-{
-  "科班別": "班級",
-  "繳款人": "姓名",
-  "學期午餐費用": "學期午餐金額",
-  "金額": "實繳金額"
-}
-```
-
-則程式應產生類似以下 SQL：
-```sql
-SELECT
-  [班級] AS [科班別],
-  [姓名] AS [繳款人],
-  [學號],
-  [座號],
-  [學期午餐金額] AS [學期午餐費用],
-  [實繳金額] AS [金額],
-  ...
-FROM [報表資料來源]
-ORDER BY [班級], [座號], [學號]
-```
-
-**實作要點**：
-1. 若 Access 欄位名與 RDLC 標準欄位名相同，則不需加 `AS`（如 `[學號]`）。
-2. 所有欄位名需以方括號 `[]` 包裹，避免保留字或特殊字元問題。
-3. 動態 SQL 組建後，讀入的 `DataTable.Columns` 名稱必須完全符合 RDLC DataSet 定義。
-4. 若映射設定有誤（如 Access 無該欄位），於執行查詢時會拋出例外，程式需捕捉並於 Log 顯示明確錯誤訊息。
 
 
 ---
@@ -422,20 +430,36 @@ ORDER BY [班級], [座號], [學號]
   - `Barcode2_Img` (byte[])
   - `Barcode3_Img` (byte[])
 
-#### 5.4.2 條碼生成參數
+#### 5.4.2 條碼生成參數（實際實作）
+程式使用 ZXing.Net 的 `BarcodeWriterPixelData` 產生條碼圖片：
+
 ```csharp
 var writer = new BarcodeWriterPixelData
 {
     Format = BarcodeFormat.CODE_39,
     Options = new EncodingOptions
     {
-        Height = 50,      // 條碼高度（像素）
-        Width = 300,      // 條碼寬度（像素）
-        Margin = 10,      // Quiet Zone
-        PureBarcode = false  // 顯示人類可讀碼
+        Height = 50,           // 條碼高度（像素）
+        Width = 300,           // 條碼寬度（像素）
+        Margin = 10,           // Quiet Zone（左右留白）
+        PureBarcode = false    // 顯示人類可讀文字
     }
 };
+
+// 產生 PixelData
+var pixelData = writer.Write(content);
+
+// 轉換為 Bitmap 並儲存為 PNG byte[]
+using var bitmap = new Bitmap(pixelData.Width, pixelData.Height, PixelFormat.Format32bppRgb);
+// ... 複製像素資料 ...
+bitmap.Save(ms, ImageFormat.Png);
+return ms.ToArray(); // 回傳 byte[] 供 RDLC 使用
 ```
+
+**實作關鍵**：
+- 使用 `Format32bppRgb` 確保黑白清晰
+- 輸出格式為 PNG（byte[]）
+- 直接將 byte[] 存入 DataTable 的 `Barcode1_Img`、`Barcode2_Img`、`Barcode3_Img` 欄位
 
 #### 5.4.3 Code39 起訖字元處理
 - ZXing.Net **自動加上起訖 `*` 字元**
@@ -618,19 +642,44 @@ var writer = new BarcodeWriterPixelData
    - 列印：傳送到印表機
 ```
 
-#### 6.6.2 學年度/學期自動判斷
+#### 6.6.2 學年度/學期自動判斷（實際實作邏輯）
 程式會根據當前日期自動設定學年度與學期：
 
-| 當前月份 | 學年度 | 學期 |
-|---------|--------|------|
-| 2-7月 | 前一年 | 第2學期 |
-| 8-12月 | 當年 | 第1學期 |
-| 1月 | 前一年 | 第1學期 |
+```csharp
+var now = DateTime.Now;
+var currentRocYear = now.Year - 1911;
+
+// 判斷學年度與學期
+if (now.Month >= 2 && now.Month <= 7)
+{
+    // 2-7月：學年度為前一年，第2學期
+    currentRocYear--;
+    CmbSemester.SelectedIndex = 1; // 第2學期
+}
+else
+{
+    // 8-12月或1月：第1學期
+    if (now.Month == 1)
+    {
+        currentRocYear--; // 1月仍屬於前一學年度
+    }
+    CmbSemester.SelectedIndex = 0; // 第1學期
+}
+```
+
+**判斷規則總表**：
+
+| 當前月份 | 學年度計算 | 學期 | 說明 |
+|---------|-----------|------|------|
+| 1月 | 西元年 - 1911 - 1 | 第1學期 | 1月屬於前一學年度第1學期 |
+| 2-7月 | 西元年 - 1911 - 1 | 第2學期 | 春季學期（第2學期） |
+| 8-12月 | 西元年 - 1911 | 第1學期 | 秋季學期（第1學期） |
 
 **範例**：
 - 2025 年 1 月 → 113 學年度第 1 學期
+- 2025 年 3 月 → 113 學年度第 2 學期
 - 2025 年 8 月 → 114 學年度第 1 學期
-- 2026 年 3 月 → 114 學年度第 2 學期
+- 2026 年 2 月 → 114 學年度第 2 學期
 
 ### 6.7 功能使用案例（Use Cases）
 
@@ -860,22 +909,38 @@ YYYY-MM-DD HH:mm:ss.fff [LEVEL] message
 
 ## 13. 交付物清單
 
-| 編號 | 交付物 | 備註 |
-|------|--------|------|
-| D-001 | WPF 程式（x64） | 執行檔 + 相依 DLL |
-| D-002 | RDLC 報表檔 | `LunchBill3Part.rdlc`（名稱可調整） |
-| D-003 | 部署指引 | 含 ACE Provider 64-bit 檢查、條碼函式庫授權/版本資訊 |
-| D-004 | 欄位映射設定檔（選配） | `fieldmap.json` |
+| 編號 | 交付物 | 狀態 | 備註 |
+|------|--------|------|------|
+| D-001 | WPF 應用程式（x64） | ✅ 完成 | 包含所有相依 DLL（發佈模式） |
+| D-002 | RDLC 報表檔 | ✅ 完成 | `Reports/LunchBill3Part.rdlc` |
+| D-003 | 欄位映射設定檔 | ✅ 完成 | `fieldmap.json`（必要檔案） |
+| D-004 | 專案原始碼 | ✅ 完成 | GitHub：chiangyih/st_lunch_bill_report |
+| D-005 | 系統文件 | ✅ 完成 | `README.md`、`spec.md`（本文件） |
+| D-006 | 授權聲明 | ✅ 完成 | `LICENSE.txt`（AGPL 3.0） |
+| D-007 | 部署指引 | 📝 待補充 | 包含環境需求、ACE Provider 安裝說明 |
+
+### 13.1 執行環境檢查清單
+部署前請確認以下項目：
+- ✅ Windows 10/11 (x64)
+- ✅ .NET 10 Desktop Runtime
+- ✅ Microsoft Access Database Engine 2016 (x64)
+- ✅ PDF 閱讀器（Adobe Acrobat Reader 或相容軟體）
+- ✅ `fieldmap.json` 檔案與執行檔同目錄
+- ✅ `Reports/LunchBill3Part.rdlc` 檔案存在
 
 ---
 
 ## 附錄 A. 相關文件索引
 
-| 文件名稱 | 說明 | 位置 |
-|----------|------|------|
-| `3聯式繳費單樣版.pdf` | 繳費單版面參考樣版 | 專案根目錄 |
-| `fieldmap.json` | 欄位名稱映射設定（選配） | 執行檔同目錄 |
-| `LunchBill3Part.rdlc` | RDLC 報表版型檔 | 執行檔同目錄 |
+| 文件名稱 | 說明 | 位置 | 狀態 |
+|----------|------|------|------|
+| `README.md` | 專案說明文件 | 專案根目錄 | ✅ |
+| `spec.md` | 本規格書（SSD v2.1） | 專案根目錄 | ✅ |
+| `LICENSE.txt` | AGPL 3.0 授權聲明 | 專案根目錄 | ✅ |
+| `fieldmap.json` | 欄位映射設定（必要） | 執行檔同目錄 | ✅ |
+| `Reports/LunchBill3Part.rdlc` | RDLC 報表定義 | Reports 子目錄 | ✅ |
+| `st_lunch_bill_report.csproj` | 專案檔 | 專案根目錄 | ✅ |
+| `3聯式繳費單樣版.pdf` | 繳費單版面參考 | 專案根目錄（參考） | 📝 |
 
 ---
 
@@ -883,10 +948,74 @@ YYYY-MM-DD HH:mm:ss.fff [LEVEL] message
 
 | 需求編號 | 章節 | 驗收測試 |
 |----------|------|----------|
-| UC-001 ~ UC-007 | §6.2 | AT-001, AT-003 |
-| REQ-VAL-001 ~ REQ-VAL-003 | §8 | AT-003 |
-| REQ-BC-001 ~ REQ-BC-004 | §9 | AT-002 |
+| UC-001 ~ UC-005 | §6.7 | AT-001, AT-003 |
+| REQ-BC-001 ~ REQ-BC-004 | §5.4 | AT-002 |
 | REQ-OUT-001, REQ-OUT-002 | §10 | AT-001 |
 | REQ-NFR-001 ~ REQ-NFR-005 | §11 | 全數 |
+
+---
+
+## 附錄 C. 實作狀態總覽（v2.1）
+
+### C.1 核心功能實作狀態
+
+| 功能模組 | 狀態 | 實作檔案 | 備註 |
+|---------|------|---------|------|
+| 資料庫連接 | ✅ 完成 | DatabaseService.cs | OleDb + UTF-8 支援 |
+| 欄位映射 | ✅ 完成 | DatabaseService.cs | 支援 fieldmap.json |
+| 動態 SQL 組建 | ✅ 完成 | DatabaseService.cs | AS 別名轉換 |
+| 條碼圖片生成 | ✅ 完成 | ReportService.cs | ZXing.Net Code39 |
+| RDLC 報表引擎 | ✅ 完成 | ReportService.cs | LocalReport |
+| PDF 匯出 | ✅ 完成 | ReportService.cs | Render("PDF") |
+| 預覽功能 | ✅ 完成 | ReportService.cs | 暫存 PDF + 開啟 |
+| 列印功能 | ✅ 完成 | ReportService.cs | 透過 PDF 列印 |
+| 學年度/學期自動判斷 | ✅ 完成 | MainWindow.xaml.cs | 依月份判斷 |
+| 自訂備註 | ✅ 完成 | MainWindow.xaml.cs | TxtReportNote |
+| Log 記錄 | ✅ 完成 | MainWindow.xaml.cs | TxtLog 顯示 |
+| 暫存檔案清理 | ✅ 完成 | MainWindow.xaml.cs | Window_Closing |
+| 現代化 UI | ✅ 完成 | MainWindow.xaml | 卡片式設計 |
+
+### C.2 已知限制
+
+1. **PaymentSlipData.cs 模型未使用**：程式直接使用 DataTable，模型類別保留但未實際應用
+2. **繳費期限格式**：目前未實作自動轉換為民國年格式（保持原資料庫格式）
+3. **資料驗證**：基本驗證已實作，詳細驗證規則待補充
+4. **錯誤處理**：已實作 try-catch，但部分錯誤訊息可更詳細
+5. **列印功能**：透過 PDF 預覽器列印，未直接呼叫印表機 API
+
+### C.3 建議改進項目
+
+| 優先級 | 改進項目 | 說明 |
+|--------|---------|------|
+| 🔴 高 | 補充單元測試 | 增加 DatabaseService 和 ReportService 測試 |
+| 🔴 高 | 完善錯誤處理 | 補充更詳細的錯誤訊息與恢復機制 |
+| 🟡 中 | 資料驗證強化 | 增加條碼格式、欄位長度驗證 |
+| 🟡 中 | 效能優化 | 大量資料（1000+ 筆）的載入效能測試 |
+| 🟡 中 | 繳費期限轉換 | 實作 MMDD → YYYMMDD 自動轉換 |
+| 🟢 低 | UI 多語言支援 | 考慮英文介面（目前僅中文） |
+| 🟢 低 | 設定檔 UI 編輯器 | 提供 fieldmap.json 圖形化編輯工具 |
+
+### C.4 技術債務追蹤
+
+1. **編碼問題**：DatabaseService.cs 和 PaymentSlipData.cs 部分中文註解顯示為亂碼，需統一為 UTF-8
+2. **重複程式碼**：條碼生成邏輯可提取為獨立方法
+3. **資源釋放**：確保所有 IDisposable 物件正確釋放（已使用 using 但需檢查）
+4. **Magic Numbers**：條碼圖片尺寸（50, 300）應提取為常數
+
+### C.5 GitHub 儲存庫資訊
+
+- **URL**: https://github.com/chiangyih/st_lunch_bill_report
+- **分支**: master
+- **最後更新**: 2025-02-01
+- **授權**: AGPL 3.0
+
+---
+
+## 文件結尾
+
+**版本**: SSD-LUNCHBILL-001 v2.1  
+**最後更新**: 2025-02-01  
+**文件狀態**: Released  
+**維護單位**: 國立新化高工
 
 ---
